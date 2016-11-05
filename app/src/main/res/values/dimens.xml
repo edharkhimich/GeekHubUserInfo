@@ -1,0 +1,37 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="button_margin_end">100dp</dimen>
+    <dimen name="button_margin_start">100dp</dimen>
+    <dimen name="button_margin_top">10dp</dimen>
+    <dimen name="image_view_width">40dp</dimen>
+    <dimen name="image_view_height">40dp</dimen>
+    <dimen name="image_view_margin_left">10dp</dimen>
+    <dimen name="image_view_margin_top">5dp</dimen>
+    <dimen name="text_view_username_padding_left">10dp</dimen>
+    <dimen name="text_view_margin_username">4dp</dimen>
+    <dimen name="button_height_rec_view">40dp</dimen>
+    <dimen name="button_width_rec_view">80dp</dimen>
+    <dimen name="button_text_size">10sp</dimen>
+    <dimen name="button_width">150dp</dimen>
+    <dimen name="circle_image_width">150dp</dimen>
+    <dimen name="circle_image_height">150dp</dimen>
+    <dimen name="cirlce_image_margin_top">40dp</dimen>
+    <dimen name="circle_image_border_width">1dp</dimen>
+    <dimen name="text_view_profile_name_margin_top">15dp</dimen>
+    <dimen name="text_view_profile_name_text_size">28sp</dimen>
+    <dimen name="text_view_android_dev_margin_top">5dp</dimen>
+    <dimen name="text_view_android_dev_text_size">16sp</dimen>
+    <dimen name="text_view_profile_location_margin_top">15dp</dimen>
+    <dimen name="text_view_profile_location_text_size">18sp</dimen>
+    <dimen name="container_git_info_margtop">20dp</dimen>
+    <dimen name="text_view_profile_followers_text_size">22sp</dimen>
+    <dimen name="text_view_profile_following_text_size">22sp</dimen>
+    <dimen name="text_view_profile_repos_text_size">22sp</dimen>
+    <dimen name="circle_image_google_prof_img_width">100dp</dimen>
+    <dimen name="circle_image_google_prof_img_height">100dp</dimen>
+    <dimen name="circle_image_google_prof_img_marg_top">40dp</dimen>
+    <dimen name="text_view_google_user_name_mrg_top">10dp</dimen>
+    <dimen name="text_view_google_user_name_text_size">18sp</dimen>
+</resources>

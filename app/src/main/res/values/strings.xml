@@ -1,0 +1,41 @@
+<resources>
+    <string name="app_name">GeekhubGroupList</string>
+    <string name="list_view">Listview</string>
+    <string name="recycler_view">RecyclerView</string>
+    <string name="button">Git</string>
+    <string name="wrong_url">Wrong URL</string>
+    <string name="user_removed">USER REMOVED</string>
+    <string name="undo">UNDO</string>
+    <string name="loading">Loading</string>
+    <string name="wrong_response">Wrong response. Check all incoming parameters</string>
+    <string name="android_developer">Android Developer</string>
+    <string name="followers">Followers</string>
+    <string name="following">Following</string>
+    <string name="repositories">Repositories</string>
+    <string name="unknown_location">Unknown location</string>
+    <string name="profile_information">Profile Information</string>
+    <string name="geekhub_group">Geekhub Group</string>
+
+    <string-array name="group_list">
+        <item>Винник Владислав</item>
+        <item>Теплий Михайло</item>
+        <item>Рибак Богдан</item>
+        <item>Лещенко Иван</item>
+        <item>Сакуров Павло</item>
+        <item>Воловик Руслан</item>
+        <item>Кириченко Дар\'я</item>
+        <item>Рябко Андрій</item>
+        <item>Ситник Євгеній</item>
+        <item>Химич Эдгар</item>
+        <item>Бочкарьова Альона</item>
+        <item>Мигаль Руслан</item>
+        <item>Смалько Ірина</item>
+        <item>Губський Валерій</item>
+        <item>Жданов Євген</item>
+        <item>Сергеенко Иван</item>
+        <item>Пахаренко Ігор</item>
+        <item>Сторчак Олександр</item>
+        <item>Піхманець Микола</item>
+        <item>Лимарь Володимир</item>
+    </string-array>
+</resources>

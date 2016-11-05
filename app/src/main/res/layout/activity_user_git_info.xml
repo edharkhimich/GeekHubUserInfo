@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/sea_back"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/recycler_view_tollbar"
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/actionBarSize"/>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/profile_image"
+        android:layout_width="@dimen/circle_image_width"
+        android:layout_height="@dimen/circle_image_height"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/cirlce_image_margin_top"
+        app:civ_border_color="#FF000000"
+        app:civ_border_width="@dimen/circle_image_border_width" />
+
+    <TextView
+        android:id="@+id/profile_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/text_view_profile_name_margin_top"
+        android:textSize="@dimen/text_view_profile_name_text_size" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/text_view_android_dev_margin_top"
+        android:text="@string/android_developer"
+        android:textSize="@dimen/text_view_android_dev_text_size" />
+
+    <TextView
+        android:id="@+id/profile_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/text_view_profile_location_margin_top"
+        android:textSize="@dimen/text_view_profile_location_text_size"
+        android:textColor="@android:color/holo_blue_light"/>
+
+    <include layout="@layout/activity_user_git_info2"/>
+
+</LinearLayout>

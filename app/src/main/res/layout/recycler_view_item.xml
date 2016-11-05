@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:id="@+id/item_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/image_rec_view"
+            android:layout_width="@dimen/image_view_height"
+            android:layout_height="@dimen/image_view_width"
+            android:layout_marginLeft="@dimen/image_view_margin_left"
+            android:layout_marginTop="@dimen/image_view_margin_top"
+            android:src="@drawable/icon" />
+
+        <TextView
+            android:id="@+id/text_rec_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:paddingLeft="@dimen/text_view_username_padding_left"
+            android:textStyle="bold" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/rec_view_btn"
+                android:layout_width="@dimen/button_width_rec_view"
+                android:layout_height="@dimen/button_height_rec_view"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:text="@string/button"
+                android:textSize="@dimen/button_text_size" />
+        </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>
