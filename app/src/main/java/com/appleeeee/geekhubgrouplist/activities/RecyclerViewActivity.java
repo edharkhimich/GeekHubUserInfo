@@ -1,21 +1,14 @@
 package com.appleeeee.geekhubgrouplist.activities;
 
-import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
-import android.widget.Toast;
 
 import com.appleeeee.geekhubgrouplist.R;
 import com.appleeeee.geekhubgrouplist.adapter.RecyclerViewAdapter;
@@ -35,7 +28,6 @@ public class RecyclerViewActivity extends AppCompatActivity {
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
 
-    private static final int INTERNET_PERMISSIONS_REQUEST = 1;
     private RecyclerViewAdapter adapter;
     private List<User> list;
 
@@ -49,8 +41,6 @@ public class RecyclerViewActivity extends AppCompatActivity {
         addUserList();
         setAdapter();
         setSwipe();
-
-        getPermissionToInternet();
     }
 
     private void setToolbar() {
@@ -123,38 +113,8 @@ public class RecyclerViewActivity extends AppCompatActivity {
                 "https://plus.google.com/u/0/109227554979939957830", "VovanNec", "109227554979939957830"));
         return list;
     }
-
-    public void getPermissionToInternet() {
-
-        if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.CAMERA)
-                != PackageManager.PERMISSION_GRANTED) {
-
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    Manifest.permission.CAMERA)) {
-
-            } else {
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.READ_CONTACTS},
-                        INTERNET_PERMISSIONS_REQUEST);
-
-            }
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        if (requestCode == INTERNET_PERMISSIONS_REQUEST) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(this, "WORK FUCKING SHIT", Toast.LENGTH_SHORT).show();
-
-            } else {
-                Toast.makeText(this, "Permission has not been granted", Toast.LENGTH_LONG).show();
-            }
-        } else {
-            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        }
-    }
 }
+
+
 
 
