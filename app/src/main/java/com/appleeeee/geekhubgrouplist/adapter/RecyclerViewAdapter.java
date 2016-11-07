@@ -97,6 +97,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 public void onClick(View view) {
                     Intent googleIntent = new Intent(context, UserGoogleInfoActivity.class);
                     googleIntent.putExtra(KEY, userItem.getGoogleNickName());
+                    googleIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(googleIntent);
                 }
             });
@@ -105,6 +106,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 public void onClick(View view) {
                     Intent gitIntent = new Intent(context, UserGitInfoActivity.class);
                     gitIntent.putExtra(KEY, userItem.getGitNickName());
+                    gitIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(gitIntent);
                 }
             });
