@@ -15,6 +15,10 @@
     <string name="unknown_location">Unknown location</string>
     <string name="profile_information">Profile Information</string>
     <string name="geekhub_group">Geekhub Group</string>
+    <string name="unknown_path">Unknown URL path. Please check it</string>
+    <string name="no_user_in_list">There is no user in this list. Please check your link and try again</string>
+    <string name="http">http://</string>
+    <string name="https">https://</string>
 
     <string-array name="group_list">
         <item>Винник Владислав</item>

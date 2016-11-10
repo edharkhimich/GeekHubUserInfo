@@ -29,7 +29,7 @@ public class RecyclerViewActivity extends AppCompatActivity {
     RecyclerView recyclerView;
 
     private RecyclerViewAdapter adapter;
-    private List<User> list;
+    private static List<User> list;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -69,7 +69,7 @@ public class RecyclerViewActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
     }
 
-    private List addUserList() {
+    public List addUserList() {
         list = new ArrayList<>();
         list.add(new User("Химич Эдгар", "https://github.com/lyfm",
                 "https://plus.google.com/u/0/102197104589432395674", "lyfm", "102197104589432395674"));
@@ -111,6 +111,10 @@ public class RecyclerViewActivity extends AppCompatActivity {
                 "https://plus.google.com/u/0/110087894894730430086", "NikPikhmanets", "110087894894730430086"));
         list.add(new User("Лимарь Володимир", "https://github.com/VovanNec",
                 "https://plus.google.com/u/0/109227554979939957830", "VovanNec", "109227554979939957830"));
+        return list;
+    }
+
+    public static List<User> getList() {
         return list;
     }
 }

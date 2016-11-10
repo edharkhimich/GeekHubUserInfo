@@ -12,7 +12,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.appleeeee.geekhubgrouplist.R;
-import com.appleeeee.geekhubgrouplist.activities.RecyclerViewActivity;
 import com.appleeeee.geekhubgrouplist.activities.UserGitInfoActivity;
 import com.appleeeee.geekhubgrouplist.activities.UserGoogleInfoActivity;
 import com.appleeeee.geekhubgrouplist.model.User;
