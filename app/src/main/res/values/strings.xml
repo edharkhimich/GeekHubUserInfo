@@ -19,6 +19,8 @@
     <string name="no_user_in_list">There is no user in this list. Please check your link and try again</string>
     <string name="http">http://</string>
     <string name="https">https://</string>
+    <string name="headset_is_unplagged">Headset is unplugged</string>
+    <string name="headset_is_plugged">Headset is plugged</string>
 
     <string-array name="group_list">
         <item>Винник Владислав</item>

@@ -1,6 +1,9 @@
 package com.appleeeee.geekhubgrouplist.activities;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -22,17 +25,30 @@ public class MainActivity extends AppCompatActivity {
     private static final String GITHUB_HOST = "github.com";
     private static final String GOOGLE_HOST = "plus.google.com";
     private boolean findUser;
+    private HeadphonesReceiver headphonesReceiver;
+    private RecyclerViewActivity recActivity;
+    IntentFilter intentFilter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        RecyclerViewActivity recActivity = new RecyclerViewActivity();
+        recActivity = new RecyclerViewActivity();
+        headphonesReceiver = new HeadphonesReceiver();
+        intentFilter = new IntentFilter(Intent.ACTION_HEADSET_PLUG);
+        registerReceiver(headphonesReceiver, intentFilter);
         recActivity.addUserList();
         urlHandling();
+    }
 
-
+    @Override
+    protected void onDestroy() {
+        if (headphonesReceiver != null) {
+            unregisterReceiver(headphonesReceiver);
+            headphonesReceiver = null;
+            super.onDestroy();
+        }
     }
 
     @OnClick(R.id.button_list_view)
@@ -81,9 +97,32 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
                 if (!findUser)
-                        Toast.makeText(this, R.string.no_user_in_list, Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, R.string.no_user_in_list, Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+
+
+    private class HeadphonesReceiver extends BroadcastReceiver{
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equals(Intent.ACTION_HEADSET_PLUG)) {
+                int state = intent.getIntExtra("state", -1);
+                switch (state) {
+                    case 0:
+                        Toast.makeText(context, R.string.headset_is_unplagged, Toast.LENGTH_LONG).show();
+                        break;
+                    case 1:
+                        Toast.makeText(context,
+                                R.string.headset_is_plugged, Toast.LENGTH_LONG).show();
+                        break;
+                    default:
+                        Toast.makeText(context, "I have no idea what the headset state is", Toast.LENGTH_SHORT).show();
                 }
             }
         }
     }
+}
 
