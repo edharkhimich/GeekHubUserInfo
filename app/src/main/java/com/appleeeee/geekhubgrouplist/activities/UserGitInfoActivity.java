@@ -16,14 +16,16 @@ import com.appleeeee.geekhubgrouplist.api.Api;
 import com.appleeeee.geekhubgrouplist.model.UserGitInfo;
 import com.squareup.picasso.Picasso;
 
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class UserGitInfoActivity extends AppCompatActivity {
+    private static final int RESULT_LOAD_IMAGE = 1;
+    private static final String TYPE = "image/*";
     @BindView(R.id.profile_image)
     ImageView profileImage;
     @BindView(R.id.profile_name)
@@ -55,7 +57,21 @@ public class UserGitInfoActivity extends AppCompatActivity {
         makeRequest();
     }
 
-    private void setToolbar(){
+    @OnClick(R.id.change_photo)
+    void changePhoto() {
+        Intent intent = new Intent();
+        intent.setType(TYPE);
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), RESULT_LOAD_IMAGE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Picasso.with(getApplicationContext()).load(data.getData()).fit().centerCrop().into(profileImage);
+    }
+
+    private void setToolbar() {
         setSupportActionBar(infoToolbar);
         infoToolbar.setNavigationIcon(R.drawable.ic_action_back);
         getSupportActionBar().setTitle(R.string.profile_information);
@@ -69,7 +85,7 @@ public class UserGitInfoActivity extends AppCompatActivity {
         });
     }
 
-    private void makeRequest(){
+    private void makeRequest() {
         Api.getInstance().getGitHubApiInterface().getUserInformation(nickName).enqueue(new Callback<UserGitInfo>() {
             @Override
             public void onResponse(Call<UserGitInfo> call, Response<UserGitInfo> response) {
@@ -77,9 +93,9 @@ public class UserGitInfoActivity extends AppCompatActivity {
                 if (response.code() == 200) {
                     Picasso.with(getApplicationContext()).load(response.body().getAvatar_url()).into(profileImage);
                     profileName.setText(response.body().getName());
-                    if(location==null){
+                    if (location == null) {
                         profileLocation.setText(R.string.unknown_location);
-                    }else {
+                    } else {
                         profileLocation.setText(response.body().getLocation());
                     }
                     profileFollowers.setText(response.body().getFollowers());

@@ -28,6 +28,14 @@
         android:layout_marginTop="@dimen/text_view_profile_name_margin_top"
         android:textSize="@dimen/text_view_profile_name_text_size" />
 
+    <Button
+        android:id="@+id/change_photo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/button_change_photo_tsize"
+        android:text="@string/change_photo"
+        android:layout_gravity="center_horizontal"/>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

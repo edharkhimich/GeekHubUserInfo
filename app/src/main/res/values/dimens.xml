@@ -34,4 +34,5 @@
     <dimen name="circle_image_google_prof_img_marg_top">40dp</dimen>
     <dimen name="text_view_google_user_name_mrg_top">10dp</dimen>
     <dimen name="text_view_google_user_name_text_size">18sp</dimen>
+    <dimen name="button_change_photo_tsize">12sp</dimen>
 </resources>

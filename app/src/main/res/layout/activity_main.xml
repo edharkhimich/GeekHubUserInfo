@@ -15,21 +15,19 @@
 
         <Button
             android:id="@+id/button_list_view"
-            android:layout_width="@dimen/button_width"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|center_horizontal"
-            android:background="@drawable/rounded"
             android:textColor="@android:color/black"
             android:text="@string/list_view" />
 
         <Button
             android:id="@+id/button_recycler_view"
-            android:layout_width="@dimen/button_width"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/button_margin_top"
             android:textColor="@android:color/black"
-            android:background="@drawable/rounded"
             android:text="@string/recycler_view" />
 
     </LinearLayout>
