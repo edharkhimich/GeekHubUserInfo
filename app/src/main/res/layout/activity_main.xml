@@ -29,6 +29,15 @@
             android:layout_marginTop="@dimen/button_margin_top"
             android:textColor="@android:color/black"
             android:text="@string/recycler_view" />
+        
+        <Button
+            android:id="@+id/button_contact_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
+            android:text="@string/contacts"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center_horizontal"/>
 
     </LinearLayout>
 </LinearLayout>

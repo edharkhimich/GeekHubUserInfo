@@ -22,6 +22,7 @@
     <string name="headset_is_unplagged">Headset is unplugged</string>
     <string name="headset_is_plugged">Headset is plugged</string>
     <string name="change_photo">Change Photo</string>
+    <string name="contacts">Contacts</string>
 
     <string-array name="group_list">
         <item>Винник Владислав</item>

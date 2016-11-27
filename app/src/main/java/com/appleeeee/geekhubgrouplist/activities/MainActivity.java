@@ -63,6 +63,12 @@ public class MainActivity extends AppCompatActivity {
         startActivity(recViewintent);
     }
 
+    @OnClick(R.id.button_contact_list)
+    void contactLickOnClick(){
+        Intent contactIntent = new Intent(this, ContactActivity.class);
+        startActivity(contactIntent);
+    }
+
     private void urlHandling() {
 
         Intent intent = getIntent();
