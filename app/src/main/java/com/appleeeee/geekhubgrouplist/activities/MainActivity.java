@@ -7,7 +7,6 @@ import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.appleeeee.geekhubgrouplist.R;
@@ -21,9 +20,9 @@ import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String LOG = "mLogs";
     private static final String GITHUB_HOST = "github.com";
     private static final String GOOGLE_HOST = "plus.google.com";
+    private static final String STATE = "state";
     private boolean findUser;
     private HeadphonesReceiver headphonesReceiver;
     private RecyclerViewActivity recActivity;
@@ -70,7 +69,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void urlHandling() {
-
         Intent intent = getIntent();
         if (intent.getAction() != null) {
             if (intent.getAction().equals(Intent.ACTION_VIEW)) {
@@ -91,7 +89,6 @@ public class MainActivity extends AppCompatActivity {
                             break;
                         } else if (url.equals(user.getGoogleUrl())) {
                             Intent userGoogleInfoIntent = new Intent(this, UserGoogleInfoActivity.class);
-                            Log.d(LOG, data.getPath());
                             userGoogleInfoIntent.putExtra(RecyclerViewAdapter.KEY, String.valueOf(data.getPath().substring(5)));
                             userGoogleInfoIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(userGoogleInfoIntent);
@@ -108,14 +105,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
-
     private class HeadphonesReceiver extends BroadcastReceiver{
-
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equals(Intent.ACTION_HEADSET_PLUG)) {
-                int state = intent.getIntExtra("state", -1);
+                int state = intent.getIntExtra(STATE, -1);
                 switch (state) {
                     case 0:
                         Toast.makeText(context, R.string.headset_is_unplagged, Toast.LENGTH_LONG).show();
@@ -125,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
                                 R.string.headset_is_plugged, Toast.LENGTH_LONG).show();
                         break;
                     default:
-                        Toast.makeText(context, "I have no idea what the headset state is", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, R.string.no_idea, Toast.LENGTH_SHORT).show();
                 }
             }
         }

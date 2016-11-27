@@ -23,6 +23,12 @@
     <string name="headset_is_plugged">Headset is plugged</string>
     <string name="change_photo">Change Photo</string>
     <string name="contacts">Contacts</string>
+    <string name="no_idea">I have no idea what the headset state is</string>
+    <string name="add_contact">Add contact</string>
+    <string name="enter_your_contact">Enter your contacts</string>
+    <string name="call_me">"Call me "</string>
+    <string name="number">Number</string>
+    <string name="name">Name</string>
 
     <string-array name="group_list">
         <item>Винник Владислав</item>
