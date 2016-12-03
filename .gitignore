@@ -6,6 +6,8 @@
 /build
 gradlew
 gradlew.bat
+/app/libs
+/libs
 /captures
 .externalNativeBuild
 Будет удалено app/libs/

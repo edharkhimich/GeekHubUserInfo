@@ -1,13 +1,18 @@
 package com.appleeeee.geekhubgrouplist.activities;
 
+import android.Manifest;
 import android.content.ContentProviderOperation;
 import android.content.DialogInterface;
 import android.content.OperationApplicationException;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.RemoteException;
 import android.provider.ContactsContract;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.LoaderManager;
@@ -17,6 +22,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
@@ -48,6 +54,9 @@ public class ContactActivity extends AppCompatActivity
             ContactsContract.CommonDataKinds.Phone.NUMBER};
     private static final int LOADER_ID = 1;
     private static final String ASC = " ASC";
+    private static final int REQUEST_CODE_ASK_PERMISSIONS = 123;
+    private static final String TAG = "mLogs";
+
     Unbinder unbinder;
     MyContactAdapter adapter;
 
@@ -79,7 +88,6 @@ public class ContactActivity extends AppCompatActivity
 
     @Override
     protected void onDestroy() {
-        unbinder.unbind();
         super.onDestroy();
     }
 
@@ -118,27 +126,27 @@ public class ContactActivity extends AppCompatActivity
 
     public void addContact(String displayName, String number) {
 
-        ArrayList<ContentProviderOperation> cntProOper = new ArrayList<>();
-        int contactIndex = cntProOper.size();
+        ArrayList<ContentProviderOperation> contentProv = new ArrayList<>();
+        int contactIndex = contentProv.size();
 
-        cntProOper.add(ContentProviderOperation.newInsert(ContactsContract.RawContacts.CONTENT_URI)
+        contentProv.add(ContentProviderOperation.newInsert(ContactsContract.RawContacts.CONTENT_URI)
                 .withValue(ContactsContract.RawContacts.ACCOUNT_TYPE, null)
                 .withValue(ContactsContract.RawContacts.ACCOUNT_NAME, null)
                 .build());
 
-        cntProOper.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
+        contentProv.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
                 .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, contactIndex)
                 .withValue(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE)
                 .withValue(ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME, displayName)
                 .build());
 
-        cntProOper.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
+        contentProv.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
                 .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, contactIndex)
                 .withValue(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE)
                 .withValue(ContactsContract.CommonDataKinds.Phone.NUMBER, number)
                 .withValue(ContactsContract.CommonDataKinds.Phone.TYPE, ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE).build());
         try {
-            getContentResolver().applyBatch(ContactsContract.AUTHORITY, cntProOper);
+            getContentResolver().applyBatch(ContactsContract.AUTHORITY, contentProv);
         } catch (OperationApplicationException exp) {
             exp.printStackTrace();
         } catch (RemoteException e) {

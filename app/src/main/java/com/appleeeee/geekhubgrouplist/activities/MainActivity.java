@@ -1,17 +1,22 @@
 package com.appleeeee.geekhubgrouplist.activities;
 
+import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 import com.appleeeee.geekhubgrouplist.R;
 import com.appleeeee.geekhubgrouplist.adapter.RecyclerViewAdapter;
 import com.appleeeee.geekhubgrouplist.model.User;
+import com.appleeeee.geekhubgrouplist.other.HeadphonesReceiver;
 
 import java.util.List;
 
@@ -22,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String GITHUB_HOST = "github.com";
     private static final String GOOGLE_HOST = "plus.google.com";
-    private static final String STATE = "state";
+    public static final int PERMS_REQUEST_CODE = 123;
     private boolean findUser;
     private HeadphonesReceiver headphonesReceiver;
     private RecyclerViewActivity recActivity;
@@ -63,9 +68,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @OnClick(R.id.button_contact_list)
-    void contactLickOnClick(){
-        Intent contactIntent = new Intent(this, ContactActivity.class);
-        startActivity(contactIntent);
+    void contactLickOnClick() {
+        if(hasPermission()) {
+            Intent contactIntent = new Intent(this, ContactActivity.class);
+            startActivity(contactIntent);
+        } else {
+            requestPerms();
+        }
     }
 
     private void urlHandling() {
@@ -105,24 +114,59 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private class HeadphonesReceiver extends BroadcastReceiver{
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (intent.getAction().equals(Intent.ACTION_HEADSET_PLUG)) {
-                int state = intent.getIntExtra(STATE, -1);
-                switch (state) {
-                    case 0:
-                        Toast.makeText(context, R.string.headset_is_unplagged, Toast.LENGTH_LONG).show();
-                        break;
-                    case 1:
-                        Toast.makeText(context,
-                                R.string.headset_is_plugged, Toast.LENGTH_LONG).show();
-                        break;
-                    default:
-                        Toast.makeText(context, R.string.no_idea, Toast.LENGTH_SHORT).show();
+    private boolean hasPermission(){
+        int res = 0;
+
+        String[] permissions = new String[]{Manifest.permission.WRITE_CONTACTS,
+                Manifest.permission.READ_CONTACTS};
+
+        for (String perms : permissions){
+            res = checkCallingOrSelfPermission(perms);
+            if (!(res == PackageManager.PERMISSION_GRANTED)){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private void requestPerms(){
+        String[] permissions = new String[]{Manifest.permission.WRITE_CONTACTS,
+                Manifest.permission.READ_CONTACTS};
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+            requestPermissions(permissions, PERMS_REQUEST_CODE);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        boolean allowed = true;
+
+        switch (requestCode){
+            case PERMS_REQUEST_CODE:
+                for (int res : grantResults){
+                    allowed = allowed && (res == PackageManager.PERMISSION_GRANTED);
+                }
+                break;
+            default:
+                allowed = false;
+                break;
+        }
+
+        if (allowed){
+            Intent contactIntent = new Intent(this, ContactActivity.class);
+            startActivity(contactIntent);
+        }
+        else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)){
+                    Toast.makeText(this, R.string.storage_denied, Toast.LENGTH_SHORT).show();
+                }
+                else if (shouldShowRequestPermissionRationale(Manifest.permission.READ_CONTACTS)){
+                    Toast.makeText(this, R.string.storage_denied, Toast.LENGTH_SHORT).show();
                 }
             }
         }
     }
 }
+
 
