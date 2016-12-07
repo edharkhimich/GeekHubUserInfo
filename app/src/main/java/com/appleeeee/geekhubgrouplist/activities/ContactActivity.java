@@ -1,10 +1,8 @@
 package com.appleeeee.geekhubgrouplist.activities;
 
-import android.Manifest;
 import android.content.ContentProviderOperation;
 import android.content.DialogInterface;
 import android.content.OperationApplicationException;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
