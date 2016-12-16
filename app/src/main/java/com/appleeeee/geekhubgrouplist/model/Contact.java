@@ -1,6 +1,7 @@
 package com.appleeeee.geekhubgrouplist.model;
 
 
+
 public class Contact {
 
     private String name;

@@ -4,13 +4,10 @@ import android.content.ContentProviderOperation;
 import android.content.DialogInterface;
 import android.content.OperationApplicationException;
 import android.database.Cursor;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.RemoteException;
 import android.provider.ContactsContract;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.LoaderManager;
@@ -20,7 +17,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
@@ -28,7 +24,6 @@ import android.widget.Toast;
 
 import com.appleeeee.geekhubgrouplist.R;
 import com.appleeeee.geekhubgrouplist.adapter.MyContactAdapter;
-
 
 import java.util.ArrayList;
 
