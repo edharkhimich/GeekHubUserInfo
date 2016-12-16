@@ -30,6 +30,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private Context context;
     private List<User> userToDelete = new ArrayList<>();
 
+    public RecyclerViewAdapter() {
+    }
 
     public RecyclerViewAdapter(Context context, List<User> list) {
         this.list = list;

@@ -3,6 +3,7 @@ package com.appleeeee.geekhubgrouplist.activities;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -22,6 +23,8 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.realm.Realm;
+import io.realm.RealmResults;
 
 public class RecyclerViewActivity extends AppCompatActivity {
 
@@ -34,7 +37,7 @@ public class RecyclerViewActivity extends AppCompatActivity {
     RecyclerView recyclerView;
 
     private RecyclerViewAdapter adapter;
-    private static List<User> list;
+    private List<User> list;
     private boolean findUser;
 
     @Override
@@ -42,6 +45,7 @@ public class RecyclerViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recycler_view);
         ButterKnife.bind(this);
+        Realm.init(this);
         setToolbar();
         addUserList();
         setAdapter();
@@ -70,12 +74,18 @@ public class RecyclerViewActivity extends AppCompatActivity {
     }
 
     private void setAdapter() {
-        adapter = new RecyclerViewAdapter(getApplicationContext(), list);
+        adapter = new RecyclerViewAdapter(getApplicationContext(), getList());
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerView.setAdapter(adapter);
     }
 
-    public List addUserList() {
+    @NonNull
+    private RealmResults<User> getList(){
+        Realm realm = Realm.getDefaultInstance();
+        return realm.where(User.class).findAll();
+    }
+
+    public void addUserList() {
         list = new ArrayList<>();
         list.add(new User("Химич Эдгар", "https://github.com/lyfm",
                 "https://plus.google.com/u/0/102197104589432395674", "lyfm", "102197104589432395674"));
@@ -117,14 +127,18 @@ public class RecyclerViewActivity extends AppCompatActivity {
                 "https://plus.google.com/u/0/110087894894730430086", "NikPikhmanets", "110087894894730430086"));
         list.add(new User("Лимарь Володимир", "https://github.com/VovanNec",
                 "https://plus.google.com/u/0/109227554979939957830", "VovanNec", "109227554979939957830"));
-        return list;
+
+        Realm realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
+        realm.insert(list);
+        realm.commitTransaction();
     }
 
     private void urlHandling() {
         Intent intent = getIntent();
         if (intent.getAction() != null) {
             if (intent.getAction().equals(Intent.ACTION_VIEW)) {
-                List<User> userList = RecyclerViewActivity.getList();
+                List<User> userList = list;
                 Uri data = intent.getData();
                 String url = getString(R.string.https) + data.getHost() + data.getPath();
                 if (GITHUB_HOST.equals(data.getHost()) && data.getPath() != null
@@ -155,10 +169,6 @@ public class RecyclerViewActivity extends AppCompatActivity {
                     Toast.makeText(this, R.string.no_user_in_list, Toast.LENGTH_LONG).show();
             }
         }
-    }
-
-    public static List<User> getList() {
-        return list;
     }
 }
 

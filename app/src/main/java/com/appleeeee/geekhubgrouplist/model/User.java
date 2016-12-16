@@ -1,6 +1,8 @@
 package com.appleeeee.geekhubgrouplist.model;
 
-public class User {
+import io.realm.RealmObject;
+
+public class User extends RealmObject{
 
     private String name;
     private String gitUrl;
@@ -56,6 +58,6 @@ public class User {
         this.googleNickName = googleNickName;
     }
 
-
-
+    public User() {
+    }
 }
