@@ -5,26 +5,35 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.widget.Toast;
 
 import com.appleeeee.geekhubgrouplist.R;
 import com.appleeeee.geekhubgrouplist.adapter.RecyclerViewAdapter;
 import com.appleeeee.geekhubgrouplist.model.User;
-import com.appleeeee.geekhubgrouplist.swipe.SwipeHelper;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.realm.DynamicRealm;
+import io.realm.FieldAttribute;
 import io.realm.Realm;
+import io.realm.RealmConfiguration;
+import io.realm.RealmList;
+import io.realm.RealmMigration;
 import io.realm.RealmResults;
+import io.realm.RealmSchema;
 
 public class RecyclerViewActivity extends AppCompatActivity {
 
@@ -37,8 +46,10 @@ public class RecyclerViewActivity extends AppCompatActivity {
     RecyclerView recyclerView;
 
     private RecyclerViewAdapter adapter;
-    private List<User> list;
     private boolean findUser;
+    private Realm realm;
+    private RealmResults<User> mRealmResults;
+    private RealmList<User> list;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -49,7 +60,7 @@ public class RecyclerViewActivity extends AppCompatActivity {
         setToolbar();
         addUserList();
         setAdapter();
-        setSwipe();
+//        setSwipe();
         urlHandling();
     }
 
@@ -67,26 +78,55 @@ public class RecyclerViewActivity extends AppCompatActivity {
         });
     }
 
-    private void setSwipe() {
-        ItemTouchHelper.Callback callback = new SwipeHelper(adapter, recyclerView);
-        ItemTouchHelper helper = new ItemTouchHelper(callback);
-        helper.attachToRecyclerView(recyclerView);
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_search, menu);
+
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if(!newText.isEmpty()){
+                    mRealmResults = realm.where(User.class)
+                            .contains("name", newText.toLowerCase(Locale.ENGLISH))
+                            .or()
+                            .contains("surname", newText.toLowerCase(Locale.ENGLISH))
+                            .findAll();
+                    adapter.notifyDataSetChanged();
+                }
+                return true;
+            }
+        });
+        return super.onCreateOptionsMenu(menu);
     }
 
+    //    private void setSwipe() {
+//        ItemTouchHelper.Callback callback = new SwipeHelper(adapter, recyclerView);
+//        ItemTouchHelper helper = new ItemTouchHelper(callback);
+//        helper.attachToRecyclerView(recyclerView);
+//    }
+
     private void setAdapter() {
-        adapter = new RecyclerViewAdapter(getApplicationContext(), getList());
+        adapter = new RecyclerViewAdapter(getApplicationContext(), getListResults());
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerView.setAdapter(adapter);
     }
 
     @NonNull
-    private RealmResults<User> getList(){
-        Realm realm = Realm.getDefaultInstance();
-        return realm.where(User.class).findAll();
+    private RealmResults<User> getListResults(){
+        realm = Realm.getDefaultInstance();
+        mRealmResults = realm.where(User.class).findAll();
+        Log.d("mLogs", mRealmResults.toString());
+        return mRealmResults;
     }
 
     public void addUserList() {
-        list = new ArrayList<>();
+        list = new RealmList<>();
         list.add(new User("Химич Эдгар", "https://github.com/lyfm",
                 "https://plus.google.com/u/0/102197104589432395674", "lyfm", "102197104589432395674"));
         list.add(new User("Винник Владислав", "https://github.com/vlads0n",
@@ -128,10 +168,10 @@ public class RecyclerViewActivity extends AppCompatActivity {
         list.add(new User("Лимарь Володимир", "https://github.com/VovanNec",
                 "https://plus.google.com/u/0/109227554979939957830", "VovanNec", "109227554979939957830"));
 
-        Realm realm = Realm.getDefaultInstance();
-        realm.beginTransaction();
-        realm.insert(list);
-        realm.commitTransaction();
+        Realm realm1 = Realm.getDefaultInstance();
+        realm1.beginTransaction();
+        realm1.insert(list);
+        realm1.commitTransaction();
     }
 
     private void urlHandling() {
@@ -170,6 +210,47 @@ public class RecyclerViewActivity extends AppCompatActivity {
             }
         }
     }
+
+//    private void realmMigrationConfiguration(){
+//        RealmMigration migration = new RealmMigration() {
+//            @Override
+//            public void migrate(DynamicRealm realm, long oldVersion, long newVersion) {
+//
+//                // DynamicRealm exposes an editable schema
+//                RealmSchema schema = realm.getSchema();
+//
+//                // Migrate to version 1: Add a new class.
+//                // Example:
+//                // public Person extends RealmObject {
+//                //     private String name;
+//                //     private int age;
+//                //     // getters and setters left out for brevity
+//                // }
+//                if (oldVersion == 0) {
+//                    schema.create("Person")
+//                            .addField("name", String.class)
+//                            .addField("age", int.class);
+//                    oldVersion++;
+//                }
+//
+//                // Migrate to version 2: Add a primary key + object references
+//                // Example:
+//                // public Person extends RealmObject {
+//                //     private String name;
+//                //     @PrimaryKey
+//                //     private int age;
+//                //     private Dog favoriteDog;
+//                //     private RealmList<Dog> dogs;
+//                //     // getters and setters left out for brevity
+//                // }
+//                if (oldVersion == 1) {
+//                    schema.get("User")
+//                            .addField("id", long.class, FieldAttribute.PRIMARY_KEY)
+//                            .addRealmObjectField("favoriteDog", schema.get("Dog"))
+//                            .addRealmListField("dogs", schema.get("Dog"));
+//                    oldVersion++;
+//                }
+
 }
 
 

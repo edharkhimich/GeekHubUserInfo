@@ -1,9 +1,12 @@
 package com.appleeeee.geekhubgrouplist.model;
 
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 public class User extends RealmObject{
 
+//    @PrimaryKey
+//    private long id;
     private String name;
     private String gitUrl;
     private String googleUrl;
@@ -49,6 +52,14 @@ public class User extends RealmObject{
     public void setGoogleNickName(String googleNickName) {
         this.googleNickName = googleNickName;
     }
+
+//    public long getId() {
+//        return id;
+//    }
+//
+//    public void setId(long id) {
+//        this.id = id;
+//    }
 
     public User(String name, String gitUrl, String googleUrl, String gitNickName, String googleNickName) {
         this.name = name;
