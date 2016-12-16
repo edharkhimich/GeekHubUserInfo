@@ -1,6 +1,7 @@
 package com.appleeeee.geekhubgrouplist.activities;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
+import android.widget.Toast;
 
 import com.appleeeee.geekhubgrouplist.R;
 import com.appleeeee.geekhubgrouplist.adapter.RecyclerViewAdapter;
@@ -23,6 +25,9 @@ import butterknife.ButterKnife;
 
 public class RecyclerViewActivity extends AppCompatActivity {
 
+    private static final String GITHUB_HOST = "github.com";
+    private static final String GOOGLE_HOST = "plus.google.com";
+
     @BindView(R.id.recycler_view_tollbar)
     Toolbar recViewToolbar;
     @BindView(R.id.recycler_view)
@@ -30,17 +35,18 @@ public class RecyclerViewActivity extends AppCompatActivity {
 
     private RecyclerViewAdapter adapter;
     private static List<User> list;
+    private boolean findUser;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recycler_view);
         ButterKnife.bind(this);
-
         setToolbar();
         addUserList();
         setAdapter();
         setSwipe();
+        urlHandling();
     }
 
     private void setToolbar() {
@@ -112,6 +118,43 @@ public class RecyclerViewActivity extends AppCompatActivity {
         list.add(new User("Лимарь Володимир", "https://github.com/VovanNec",
                 "https://plus.google.com/u/0/109227554979939957830", "VovanNec", "109227554979939957830"));
         return list;
+    }
+
+    private void urlHandling() {
+        Intent intent = getIntent();
+        if (intent.getAction() != null) {
+            if (intent.getAction().equals(Intent.ACTION_VIEW)) {
+                List<User> userList = RecyclerViewActivity.getList();
+                Uri data = intent.getData();
+                String url = getString(R.string.https) + data.getHost() + data.getPath();
+                if (GITHUB_HOST.equals(data.getHost()) && data.getPath() != null
+                        || GOOGLE_HOST.equals(data.getHost()) && data.getPath() != null
+                        && String.valueOf(data).startsWith(getString(R.string.http))
+                        || String.valueOf(data).startsWith(getString(R.string.https))) {
+                    for (User user : userList) {
+                        if (url.equals(user.getGitUrl())) {
+                            Intent userGitInfoIntent = new Intent(this, UserGitInfoActivity.class);
+                            userGitInfoIntent.putExtra(RecyclerViewAdapter.KEY, String.valueOf(data.getPath().substring(1)));
+                            userGitInfoIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(userGitInfoIntent);
+                            findUser = true;
+                            break;
+                        } else if (url.equals(user.getGoogleUrl())) {
+                            Intent userGoogleInfoIntent = new Intent(this, UserGoogleInfoActivity.class);
+                            userGoogleInfoIntent.putExtra(RecyclerViewAdapter.KEY, String.valueOf(data.getPath().substring(5)));
+                            userGoogleInfoIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(userGoogleInfoIntent);
+                            findUser = true;
+                            break;
+                        } else {
+                            findUser = false;
+                        }
+                    }
+                }
+                if (!findUser)
+                    Toast.makeText(this, R.string.no_user_in_list, Toast.LENGTH_LONG).show();
+            }
+        }
     }
 
     public static List<User> getList() {
