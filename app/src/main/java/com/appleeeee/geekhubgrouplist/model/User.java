@@ -1,8 +1,11 @@
 package com.appleeeee.geekhubgrouplist.model;
 
-public class User {
+import io.realm.RealmObject;
+
+public class User extends RealmObject{
 
     private String name;
+    private String nameInLowerCase;
     private String gitUrl;
     private String googleUrl;
     private String gitNickName;
@@ -48,14 +51,23 @@ public class User {
         this.googleNickName = googleNickName;
     }
 
+    public String getNameInLowerCase() {
+        return nameInLowerCase;
+    }
+
+    public void setNameInLowerCase(String nameInLowerCase) {
+        this.nameInLowerCase = nameInLowerCase;
+    }
+
     public User(String name, String gitUrl, String googleUrl, String gitNickName, String googleNickName) {
         this.name = name;
+        this.nameInLowerCase = name.toLowerCase();
         this.gitUrl = gitUrl;
         this.googleUrl = googleUrl;
         this.gitNickName = gitNickName;
         this.googleNickName = googleNickName;
     }
 
-
-
+    public User() {
+    }
 }

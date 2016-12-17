@@ -30,6 +30,8 @@
     <string name="number">Number</string>
     <string name="name">Name</string>
     <string name="storage_denied">Storage Permissions denied.</string>
+    <string name="search">Search</string>
+    <string name="search_hint">Search</string>
 
     <string-array name="group_list">
         <item>Винник Владислав</item>

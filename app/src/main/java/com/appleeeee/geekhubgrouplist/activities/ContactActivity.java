@@ -31,6 +31,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
+import static com.appleeeee.geekhubgrouplist.util.Constants.ASC;
+import static com.appleeeee.geekhubgrouplist.util.Constants.LOADER_ID;
+import static com.appleeeee.geekhubgrouplist.util.Constants.FROM;
+
 public class ContactActivity extends AppCompatActivity
         implements LoaderManager.LoaderCallbacks<Cursor> {
 
@@ -43,12 +47,6 @@ public class ContactActivity extends AppCompatActivity
     @BindView(R.id.r_view)
     RelativeLayout relativeLayout;
 
-    private final String[] FROM = new String[]{ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
-            ContactsContract.CommonDataKinds.Phone.NUMBER};
-    private static final int LOADER_ID = 1;
-    private static final String ASC = " ASC";
-    private static final int REQUEST_CODE_ASK_PERMISSIONS = 123;
-    private static final String TAG = "mLogs";
 
     Unbinder unbinder;
     MyContactAdapter adapter;

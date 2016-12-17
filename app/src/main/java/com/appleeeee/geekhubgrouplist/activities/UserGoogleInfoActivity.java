@@ -22,6 +22,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.appleeeee.geekhubgrouplist.util.Constants.API_KEY;
+import static com.appleeeee.geekhubgrouplist.util.Constants.KEY;
+
 
 public class UserGoogleInfoActivity extends AppCompatActivity {
 
@@ -31,8 +34,6 @@ public class UserGoogleInfoActivity extends AppCompatActivity {
     ImageView googleUserImage;
     @BindView(R.id.google_user_name)
     TextView googleUserName;
-
-    private static final String API_KEY = "AIzaSyCQTQH6bRN7kjHEymBW2y8Nam21ObklII4";
 
     private Intent intent;
     private String googleAcLogin;
@@ -46,7 +47,7 @@ public class UserGoogleInfoActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         intent = getIntent();
-        googleAcLogin = intent.getStringExtra(RecyclerViewAdapter.KEY);
+        googleAcLogin = intent.getStringExtra(KEY);
         setToolbar();
         makeRequest();
     }
