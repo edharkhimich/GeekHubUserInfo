@@ -6,15 +6,18 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class Api {
+import static com.appleeeee.geekhubgrouplist.util.Constants.GIT_BASE_URL;
+import static com.appleeeee.geekhubgrouplist.util.Constants.GOOGLE_BASE_URL;
 
-    public static final String GIT_BASE_URL = "https://api.github.com";
-    public static final String GOOGLE_BASE_URL = "https://www.googleapis.com";
+public class Api {
 
     private static Api api;
 
+//    private ApiInterface apiInterface;
+
     private Api() {
     }
+
 
     public static Api getInstance() {
         if (api == null) {

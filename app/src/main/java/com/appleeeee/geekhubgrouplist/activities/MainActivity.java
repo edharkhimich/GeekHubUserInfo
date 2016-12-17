@@ -11,16 +11,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 import com.appleeeee.geekhubgrouplist.R;
-import com.appleeeee.geekhubgrouplist.other.HeadphonesReceiver;
+import com.appleeeee.geekhubgrouplist.util.HeadphonesReceiver;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.appleeeee.geekhubgrouplist.util.Constants.PERMS_REQUEST_CODE;
+
 public class MainActivity extends AppCompatActivity {
 
-    public static final int PERMS_REQUEST_CODE = 123;
     private HeadphonesReceiver headphonesReceiver;
-    IntentFilter intentFilter;
+    private IntentFilter intentFilter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

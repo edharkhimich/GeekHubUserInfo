@@ -2,6 +2,7 @@ package com.appleeeee.geekhubgrouplist.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,28 +12,22 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.appleeeee.geekhubgrouplist.R;
-import com.appleeeee.geekhubgrouplist.activities.RecyclerViewActivity;
 import com.appleeeee.geekhubgrouplist.activities.UserGitInfoActivity;
 import com.appleeeee.geekhubgrouplist.activities.UserGoogleInfoActivity;
 import com.appleeeee.geekhubgrouplist.model.User;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.realm.OrderedRealmCollection;
+import io.realm.Realm;
 import io.realm.RealmRecyclerViewAdapter;
 import io.realm.RealmResults;
 
-public class RecyclerViewAdapter extends RealmRecyclerViewAdapter<User, RecyclerViewAdapter.ViewHolder> {
+import static com.appleeeee.geekhubgrouplist.util.Constants.KEY;
 
-    public static final String KEY = "key";
+public class RecyclerViewAdapter extends RealmRecyclerViewAdapter<User, RecyclerViewAdapter.ViewHolder> {
 
     private RealmResults<User> data;
     private Context context;
-    private List<User> userToDelete = new ArrayList<>();
-    private RecyclerViewActivity activity;
 
     public RecyclerViewAdapter(Context context, RealmResults<User> data) {
         super(context, data, true);
@@ -57,27 +52,36 @@ public class RecyclerViewAdapter extends RealmRecyclerViewAdapter<User, Recycler
         return data.size();
     }
 
-//    public void onItemRemove(final RecyclerView.ViewHolder viewHolder, final RecyclerView recyclerView) {
-//        final int adapterPosition = viewHolder.getAdapterPosition();
-//        final User mUser = list.get(adapterPosition);
-//        Snackbar snackbar = Snackbar
-//                .make(recyclerView, R.string.user_removed, Snackbar.LENGTH_LONG)
-//                .setAction(R.string.undo, new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View view) {
-//                        int mAdapterPosition = viewHolder.getAdapterPosition();
-//                        list.add(adapterPosition, mUser);
-//                        notifyItemInserted(adapterPosition);
-//                        recyclerView.scrollToPosition(mAdapterPosition);
-//                        userToDelete.remove(mUser);
-//                    }
-//                });
-//        snackbar.show();
-//        list.remove(adapterPosition);
-//        notifyItemRemoved(adapterPosition);
-//        userToDelete.add(mUser);
-//    }
+    public void onItemRemove(final RecyclerView.ViewHolder viewHolder, final RecyclerView recyclerView) {
+        final int adapterPosition = viewHolder.getAdapterPosition();
+        final User deletedUser = data.get(adapterPosition);
+        final Realm instance = Realm.getDefaultInstance();
+        final User restoreUser = instance.copyFromRealm(deletedUser);
+        Snackbar snackbar = Snackbar
+                .make(recyclerView, R.string.user_removed, Snackbar.LENGTH_LONG)
+                .setAction(R.string.undo, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        instance.beginTransaction();
+                        instance.copyToRealm(restoreUser);
+                        notifyItemInserted(adapterPosition);
+                        instance.commitTransaction();
+                    }
+                });
+        snackbar.show();
+        Realm realm = Realm.getDefaultInstance();
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                deletedUser.deleteFromRealm();
+            }
+        });
+    }
 
+    public void setData(RealmResults<User> data) {
+        this.data = data;
+        notifyDataSetChanged();
+    }
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -87,7 +91,6 @@ public class RecyclerViewAdapter extends RealmRecyclerViewAdapter<User, Recycler
         Button buttonToGit;
         @BindView(R.id.item_layout)
         LinearLayout layout;
-
 
         public ViewHolder(View itemView) {
             super(itemView);

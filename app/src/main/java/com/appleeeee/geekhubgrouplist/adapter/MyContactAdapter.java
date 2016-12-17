@@ -13,13 +13,13 @@ import com.appleeeee.geekhubgrouplist.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.appleeeee.geekhubgrouplist.util.Constants.DISPLAY_NAME;
+import static com.appleeeee.geekhubgrouplist.util.Constants.NUMBER;
+
 public class MyContactAdapter extends RecyclerView.Adapter<MyContactAdapter.ContactViewHolder> {
 
     private Cursor mCursor;
     private int mNameColIdx, mIdColIdx;
-
-    private static final String DISPLAY_NAME = ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME;
-    private static final String NUMBER = ContactsContract.CommonDataKinds.Phone.NUMBER;
 
     public MyContactAdapter() {
     }

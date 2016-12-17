@@ -12,6 +12,7 @@
     <application
         android:allowBackup="true"
         android:icon="@drawable/icon"
+        android:name=".GeekhubApplication"
         android:label="GH Edgar Khimich"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">

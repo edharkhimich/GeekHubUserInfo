@@ -23,9 +23,12 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.appleeeee.geekhubgrouplist.util.Constants.KEY;
+import static com.appleeeee.geekhubgrouplist.util.Constants.RESULT_LOAD_IMAGE;
+import static com.appleeeee.geekhubgrouplist.util.Constants.TYPE;
+
 public class UserGitInfoActivity extends AppCompatActivity {
-    private static final int RESULT_LOAD_IMAGE = 1;
-    private static final String TYPE = "image/*";
+
     @BindView(R.id.profile_image)
     ImageView profileImage;
     @BindView(R.id.profile_name)
@@ -52,7 +55,7 @@ public class UserGitInfoActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         intent = getIntent();
-        nickName = intent.getStringExtra(RecyclerViewAdapter.KEY);
+        nickName = intent.getStringExtra(KEY);
         setToolbar();
         makeRequest();
     }

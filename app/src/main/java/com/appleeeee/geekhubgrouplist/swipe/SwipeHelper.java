@@ -11,7 +11,7 @@ public class SwipeHelper extends ItemTouchHelper.SimpleCallback {
     private RecyclerView recyclerView;
 
     public SwipeHelper(RecyclerViewAdapter adapter, RecyclerView recyclerView) {
-        super(ItemTouchHelper.UP | ItemTouchHelper.DOWN, ItemTouchHelper.LEFT);
+        super(ItemTouchHelper.UP | ItemTouchHelper.DOWN, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
         this.adapter = adapter;
         this.recyclerView = recyclerView;
     }
@@ -23,6 +23,6 @@ public class SwipeHelper extends ItemTouchHelper.SimpleCallback {
 
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-//        adapter.onItemRemove(viewHolder, recyclerView);
+        adapter.onItemRemove(viewHolder, recyclerView);
     }
 }

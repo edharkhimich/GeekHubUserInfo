@@ -1,4 +1,4 @@
-package com.appleeeee.geekhubgrouplist.other;
+package com.appleeeee.geekhubgrouplist.util;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
